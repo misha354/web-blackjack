@@ -1,0 +1,33 @@
+<%#the dealer's area%>
+<div class="well" >
+  <h4>Dealer's Cards</h4>
+     
+
+    <%#Show the dealer's cards%>
+    <% @player_images.each do |image_path|%>     
+          <img src= "<%=image_path%>" style="margin: 0px 5px 5px 0px">
+    <%end%>
+
+    <%#Status update in case player previously stayed%>
+     <%if @player_stayed? == true%> 
+     
+      <h5>
+        @name stayed at <%=hand_total('dealer_cards')%>. @name has $<%=@balance%> 
+        and bet <%=@bet_amount%> this round.  
+      </h5>
+
+    <%end%>
+
+  </p>
+
+</div>
+
+<p>
+<form action=""  method="post" style="display:inline;">
+  <input type="submit"class="btn btn-success btn-large" value="Hit">
+</form>
+&nbsp;&nbsp;  
+ <form action="" method="post" style="display:inline;">
+  <input type="submit" class="btn btn-warning btn-large" value="Stay">
+</form>
+</p>

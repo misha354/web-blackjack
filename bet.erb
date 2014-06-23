@@ -1,0 +1,8 @@
+<h3> Make a bet for this round </h3>
+	<p>
+		<%session['user_name'] has <%=session['balance']%>
+	</p>
+	<form method='post' action='/bet'>
+		<input type='text' name = 'bet_amount' style='width: 50px'>
+		<input type='submit' value='Make Bet' class='btn'>
+	</form>

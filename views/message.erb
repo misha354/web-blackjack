@@ -1,0 +1,15 @@
+<%if @message.length > 0%> 
+
+	<%if @status == 'player_won' %>
+		<div class="container" style="background: #add8e6; border-radius: 5px">
+	<%end%>
+
+	<%if  @status == 'dealer_won' %>
+		<div class="container" style="background: red; border-radius: 5px">
+	<%end%>
+
+	<%=@message%>
+
+	</div>
+
+<%end%>

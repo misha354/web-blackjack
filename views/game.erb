@@ -1,0 +1,20 @@
+<%#% Display the message bar, if there is a message%>
+
+<p></p>
+
+<%if ['player_won','dealer_won'].include?(@status)%>
+
+    <strong>Play Again?</strong>
+    <a href="/bet" class='btn btn-primary'/> Yes</a>
+    <a href="/goodbye" class='btn'>No </a> 
+    <br>
+
+<%end%> 
+
+<h1>Blackjack game</h1>
+
+<br>
+
+<%= erb :dealer_cards%>
+<p></p>
+<%=erb :player_cards%>

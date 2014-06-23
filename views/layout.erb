@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My First App</title>
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/application.css">
+  </head>
+  <body style="padding-top: 50px;">
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+              <li><a href="/">Start Over</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+  <div class="container">
+
+    <%if @message %>
+      <div class=" <%="alert alert-#{@message_class}"%> " >
+        <%puts 'got here layotu'%>
+        <%=@message%></div>
+    <% end %>
+      
+ <!--  <%#Show the message if there is one %>
+
+  <%#if @message.length > 0%> 
+
+  <%#Set the color%>
+  <div class="alert <%=@alert_class%>">
+  
+  <%#Display the message %>
+  <%=@message%>
+
+  </div>
+
+<%#end%>
+ -->
+
+      <%= yield %>
+  </div>
+  </body>
+</html>
+<%clear_message%>
