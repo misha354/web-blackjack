@@ -19,18 +19,10 @@ SUITS = ["hearts","spades","diamonds","clubs"]
 RANKS = ["2", "3", "4", "5", "6", "7", "8", 
         "9", "10", "jack", "queen", "king", "ace"]
 
+IMAGE_DIR = "/images/cards" #directory containing card images
 
 VALID_STATUSES = [ 'dealer_won','player_won', 'push',
                  'dealing_to_player', 'dealing_to_dealer']
-
-
-VALID_MESSAGE_CLASSES = [nil,'alert','info','error','success']
-
-# STATUS_MESSAGES = { dealer_won: "Dealer Won!", player_won: "Player Won!", 
-#                  deal_to_player: "Dealing to player.", push: "Push."}
-
-# # These strings are used when printing hands
-# PLAYERS = {'player_cards' => "Player ", 'dealer_cards' => "Dealer "}
 
 #translation from face values to hard point values
 POINTS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 1]
@@ -68,6 +60,8 @@ RANK_TO_POINTS = Hash[ RANKS.zip(POINTS) ]
 # 'balance'     | @balance          | an integer. the player's balance in $. 
 #---------------|-------------------|---------------------------------------------------
 #'player_stayed'| @player_stayed    | a boolean flag set to true if the player stayed
+#---------------|-------------------|------------------------------------------------
+#'error'        | @error            | an error message string
 
 #@player_images, @dealer_images   instance variables. arrays of strings containing
 #                                 paths to card pictures.                                   
@@ -75,10 +69,19 @@ RANK_TO_POINTS = Hash[ RANKS.zip(POINTS) ]
 
 helpers do
 
+  #Methods that access and update the contents of the session cookie
+
  #Reads the contents of the session cookie and saves it to instance variables
   def read_session
 
-    @message = session['message']
+    @message = session['message'] #set the message instance variable
+
+    #Validate status
+    if !VALID_STATUSES.include?(session['status'])
+      raise "Unknown status"
+    end
+
+    #Set the color of the message box
 
     case session['status']
 
@@ -90,13 +93,9 @@ helpers do
         @message_class = "alert"
       end
                     
+    @status = session['status'] #set the status instance variable
 
-    if !VALID_STATUSES.include?(session['status'])
-      raise "Unknown status"
-    end
-  
-    @status = session['status']
-
+    #set the remaining instance variables
     @name = session['name']
     @balance = session['balance']
     @bet_amount = session['bet_amount']
@@ -104,6 +103,22 @@ helpers do
 
   end
 
+  #Returns an array of strings. Each string is the path to an image of a card
+  def show_hand(hand)
+  #hand is a string with valid values 'player_cards' and 'dealer_cards'
+
+    images = session[hand].map do |card|
+      "#{IMAGE_DIR}/#{card['suit']}_#{card['rank']}.jpg"     
+    end
+
+    #Hide the player's first card if it's the dealers turn
+    if(session['status'] == 'dealing_to_player' && hand=='dealer_cards')
+      images[0] = "#{IMAGE_DIR}/cover.jpg"
+    end
+
+    return images
+
+  end
 
   #Clears the message buffer
   def clear_message
@@ -111,22 +126,40 @@ helpers do
     session['message_class'] = 'alert'
   end
 
+  #Clears the status
   def clear_status
     session['status'] = nil
   end
 
-  #Creates and returns a fresh game state object
+  def append_message(message)
+    session['message'] = session['message'].to_s + message
+  end
+
+  def record_dealer_win
+    session['message_class'] = 'error'
+    session['status'] = 'dealer_won'
+    session['balance'] -= session['bet_amount']
+  end
+
+  def record_player_win
+    session['message_class'] = 'success'
+    session['status'] = 'player_won'
+    session['balance'] += session['bet_amount']
+  end
+
+  #Creates a fresh game in the session hash
   def create_game
 
+    #Initialize the the card collections
     session['dealer_cards'] = []
     session['player_cards'] = []
-    
     session['discard'] = [] 
     session['game_cards'] = []
   
+    #Inititalize flags and message strings
     session['status'] = 'dealing_to_player'
     session['message'] = nil
-
+ 
     #Give the player her starting money
     session['balance'] = START_AMT
 
@@ -151,6 +184,7 @@ helpers do
   #Deal a hand
   def deal_hand()
 
+    #Reset the boolean flag that indicates that player stayed in this hand
     session['player_stayed'] = false
 
     #Discard dealer's old hand
@@ -175,11 +209,13 @@ helpers do
  
   end
 
+  #Method moves a card from game cards to specified hand
   def deal_card(hand)
-  #game_cards and hand are arrays of hashes of form {rank: "string", suit: "string"}
-  #hand is an array containing the player's cards.  It can be empty
-  #game_cards is an array of all the cards in the deck that haven't been dealt
-  #Method moves a card from game_card to hand
+  #hand is a string whose valid values are 'player_cards' and 'dealer_cards'
+
+    if !['player_cards','dealer_cards'].include?(hand)
+      raise "Unknown hand #{hand}"
+    end
 
     #Check for an empty deck and reshuffle if necessary
     if (session['game_cards'].length == 0)
@@ -191,24 +227,8 @@ helpers do
 
     end
 
+    #Move the card
     session[hand] << session['game_cards'].pop 
-
-  end
-
-  # #Returns an array of strings. Each string is the path to an image of a card
-  def show_hand(hand)
-  #hand is an array of hashes of form {'rank' =>string, 'suit' => string}  
- 
-    images = session[hand].map do |card|
-      "/images/cards/#{card['suit']}_#{card['rank']}.jpg"     
-    end
-
-    #Hide the player's first card if it's the dealers turn
-    if(session['status'] == 'dealing_to_player' && hand=='dealer_cards')
-      images[0] = "/images/cards/cover.jpg"
-    end
-
-    return images
 
   end
 
@@ -224,7 +244,7 @@ helpers do
 
   #a method that checks if the specify hand busted
   def bust?(hand)
-  # hand == :dealer_hand or hand == :player_hand 
+  # hand == 'dealer_cards' or hand == 'player_cards' 
 
     return hand_total( hand ) > 21
 
@@ -232,8 +252,7 @@ helpers do
 
    #Totals the points for a hand
   def hand_total(hand)
-   #hand is an array of hashes, each hash corresponding to a card
-   #the hashes are of form {rank: "string", suit: 'char'}
+   #hand is a string with valid values 'dealer_cards' and 'player_cards'
 
     #A flag to see if the hand contains an ace
     puts "hand =" + hand.to_s
@@ -262,7 +281,7 @@ helpers do
   def decide_status
 
     case session['status']
-
+     
       when 'dealing_to_player'
 
         #Both player and dealer hit blackjack
@@ -288,75 +307,60 @@ helpers do
         
         #Player hit the winning value, it's the dealer's turn now
         elsif hand_total('player_cards') == WIN_VALUE
+          append_message("Player stays at #{WIN_VALUE}. ")
           session['status'] = 'dealing_to_dealer'
 
-        #Don't change the status  
+        #The player can hit or stay  
         else  
           ;
         end
-
+      
       when 'dealing_to_dealer'
 
-          #Dealer busted
-          if bust?('dealer_cards')
-            append_message(
-              "Dealer busts with #{hand_total('dealer_cards')}. ")
-            record_player_win          
+        #Dealer busted
+        if bust?('dealer_cards')
+          append_message(
+            "Dealer busts with #{hand_total('dealer_cards')}. ")
+          record_player_win          
 
 #----------------------------------------------------------------------------------------          
-          #The dealer is staying  Tally and decide winner  
-          elsif hand_total('dealer_cards') >= STAY_VALUE
+        #The dealer is staying  Tally and decide winner  
+        elsif hand_total('dealer_cards') >= STAY_VALUE
             
-            append_message("Dealer stays at #{hand_total('dealer_cards')}. ")
-
-            #Player won
-            if hand_total('player_cards') > hand_total('dealer_cards')
-             # append_message (
-             #    "#{session['name']} wins with #{hand_total('player_cards')}!" )
-              record_player_win
-
-            #Dealer won
-            elsif hand_total('player_cards') < hand_total('dealer_cards')
+          append_message("Dealer stays at #{hand_total('dealer_cards')}. ")
           
-              # append_message(
-              #   "Dealer wins with #{hand_total('dealer_cards')}")
-             record_dealer_win 
+          #Player won
+          if hand_total('player_cards') > hand_total('dealer_cards')
+            record_player_win
 
-            #It's a tie. 
-            else
-              session['message'] = "Push at #{hand_total('player_cards')}. "
-              session['status'] = 'push'
-            end
+          #Dealer won
+          elsif hand_total('player_cards') < hand_total('dealer_cards')
+            record_dealer_win 
+
+          #It's a tie. 
+          else
+            session['message'] = "Push at #{hand_total('player_cards')}. "
+            session['status'] = 'push'
+          end
 #--------------------------------------------------------------------------------------------             
-          else 
-         
-
-        end #closes if dealer stay limit reached
+        #The dealer is hitting
+        else ;
+          
+        end #closes if dealer busted
       
-        when 'dealer_won', 'player_won', 'push' #do nothing 
+      when 'dealer_won', 'player_won', 'push' 
+      #Hand is over. Do nothing. 
 
-      else #closes the case 'session['status]
+      else 
+      #An unknown status was detected
         raise "Unknown status in decide_status: #{session['status']}"
-    end
+  
+    end #closes case 'session['status]'
+
   
   end #closes the method
-  
-  def append_message(message)
-    session['message'] = session['message'].to_s + message
-  end
 
-  def record_dealer_win
-    session['message_class'] = 'error'
-    session['status'] = 'dealer_won'
-    session['balance'] -= session['bet_amount']
-  end
-
-  def record_player_win
-    session['message_class'] = 'success'
-    session['status'] = 'player_won'
-    session['balance'] += session['bet_amount']
-  end
-
+#end of helper methods  
 end
 
 #The root path
@@ -394,32 +398,31 @@ end
 #Deal a new hand
 get '/new_hand' do
  
-if session['balance'] == 0
+  #Player ran out of money  
+  if session['balance'] == 0
    redirect '/goodbye'
 
-  elsif session['balance'] >0
-  
-
-
-  else
+  #Error! 
+  elsif 
+    session['balance'] < 0
     raise "Negative balance"
-  end
-
+  
+  else 
+    #Clear status and message and take bet 
     clear_message
-     deal_hand     
-     clear_status
-     redirect '/bet'
+    deal_hand     
+    clear_status
+    redirect '/bet'
+  end
 end
 
 #Request a bet amount
 get '/bet' do
 
-  #Can't call read_session because the status m
   @name = session['name']
   @message = session['message']
   @balance = session['balance']
   @error = session['error']
-
 
   erb :bet
 
@@ -582,5 +585,13 @@ get '/debug/clear' do
   session['player_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}, 
     {'rank' => '10', 'suit' => 'spades'} ]
     session['status'] = 'dealing_to_dealer'
+    return ""
+end
+
+ get '/debug/player21' do
+  session['player_cards'] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '8', 'suit' => 'diamonds'},
+   {'rank' => '10', 'suit' => 'diamonds'} ]
+  session['dealer_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}]
+    session['status'] = 'dealing_to_player'
     return ""
 end

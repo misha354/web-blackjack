@@ -6,12 +6,12 @@
                    <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
 
           <%=@message%> 
-          <%=@name%> now has <strong> $<%=@balance%></strong>.
+          <%=@name%> now has <strong> $<%=@balance%></strong>. 
+          <%=session['game_cards'].length%> cards remain in the deck.
 
         </div>
    <p></p>
 
-<%#if ['player_won','dealer_won'].include?(@status)%>
 
     <strong>Play Again?</strong>
     <a href="/new_hand" class='btn btn-primary'/> Yes</a>
@@ -21,7 +21,6 @@
 
 
 
-<%#end%> 
 
 <h1>Blackjack game</h1>
 
