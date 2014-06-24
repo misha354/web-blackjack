@@ -1,5 +1,16 @@
 <%#% Display the message bar, if there is a message%>
 
+      <%if @message && ['player_won', 'dealer_won'].include?(@status)%>
+
+        <div class= "alert alert-<%=@message_class%> "  >
+                   <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
+
+          <%=@message%>
+
+        </div>
+    
+     <%end%>  
+
 <p></p>
 
 <%if ['player_won','dealer_won'].include?(@status)%>

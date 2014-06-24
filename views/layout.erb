@@ -11,7 +11,7 @@
       <div class="navbar-inner">
         <div class="container">
             <ul class="nav">
-              <li><a href="/">Start Over</a></li>
+              <li><a href="/start_over">Start Over</a></li>
             </ul>
         </div>
       </div>
@@ -19,17 +19,17 @@
 
     <div class="container">
 
-      <%if @message%>
+      <%if @error%>
 
-        <div class= "alert alert-<%= @message_class%> "  >
-
-          <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
-
-          <%=@message%>
+        <div class= "alert alert-error "  >
+          <%=@error%>
 
         </div>
     
      <%end%>   
+
+
+      
     
      <%= yield %>
   

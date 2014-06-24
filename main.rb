@@ -23,7 +23,6 @@ RANKS = ["2", "3", "4", "5", "6", "7", "8",
 VALID_STATUSES = [ 'dealer_won','player_won', 'push',
                  'dealing_to_player', 'dealing_to_dealer']
 
-STATUS_MESSAGES = {'player_won' => 'Player won. ', 'dealer_won' => 'Dealer won. '}
 
 VALID_MESSAGE_CLASSES = [nil,'alert','info','error','success']
 
@@ -273,12 +272,12 @@ helpers do
         
         #Player blackjack
         elsif blackjack?('player_cards')
-          append_message = "session['name'] hit blackjack."
+          append_message  "session['name'] hit blackjack."
           record_player_win
 
         #Dealer blackjack
         elsif blackjack?('dealer_cards')
-            append_message = "Dealer hit blackjack. "
+            append_message  "Dealer hit blackjack. "
             record_dealer_win
 
         #Player bust  
@@ -300,32 +299,33 @@ helpers do
 
           #Dealer busted
           if bust?('dealer_cards')
-            session['message']= \
-              "Dealer busts with #{hand_total('dealer_cards')}. "
+            append_message(
+              "Dealer busts with #{hand_total('dealer_cards')}. ")
             record_player_win          
 
 #----------------------------------------------------------------------------------------          
           #The dealer is staying  Tally and decide winner  
           elsif hand_total('dealer_cards') >= STAY_VALUE
             
-            append_message("Dealer stays at #{hand_total('dealer_cards')}.")
+            append_message("Dealer stays at #{hand_total('dealer_cards')}. ")
 
             #Player won
             if hand_total('player_cards') > hand_total('dealer_cards')
-              append_message (
-                 "#{@session['name']} wins with #{hand_total('player_cards')}!" )
+             # append_message (
+             #    "#{session['name']} wins with #{hand_total('player_cards')}!" )
               record_player_win
 
             #Dealer won
             elsif hand_total('player_cards') < hand_total('dealer_cards')
           
-              session['message'] = \
-                "Dealer wins with #{hand_total('dealer_cards')}"
-              record_dealer_win
+              # append_message(
+              #   "Dealer wins with #{hand_total('dealer_cards')}")
+             record_dealer_win 
 
             #It's a tie. 
             else
               session['message'] = "Push at #{hand_total('player_cards')}"
+              session['status'] = 'push'
             end
 #--------------------------------------------------------------------------------------------             
           else 
@@ -401,7 +401,7 @@ get '/' do
    end
 end
 
-#Actions aking names and bets
+#Preliminaries
 
  #Serve the username form
  get '/get_name' do  
@@ -414,6 +414,7 @@ end
    redirect '/new_game'
  end
 
+#Generate a new game
 get '/new_game' do
   create_game
   clear_message
@@ -421,6 +422,7 @@ get '/new_game' do
   redirect '/new_hand'
 end
 
+#Deal a new hand
 get '/new_hand' do
     clear_message
      deal_hand     
@@ -431,8 +433,13 @@ end
 #Request a bet amount
 get '/bet' do
 
+  #Can't call read_session because the status m
   @name = session['name']
   @message = session['message']
+  @balance = session['balance']
+  @error = session['error']
+
+
   erb :bet
 
  end
@@ -440,11 +447,12 @@ get '/bet' do
 # Read the user's bet
 post '/bet' do
 
+    puts " in bet @error= #{@error}"
+
   #Check for invalid characters in input
   if !(params['bet_amount']  =~/^0*[1-9]\d*$/)     
 
-    session['message'] = "Must enter a bet"
-    session['message_class'] = 'error'
+    session['error'] = "Must enter a bet"
     redirect '/bet'
 
   end
@@ -454,14 +462,14 @@ post '/bet' do
 
   #Check for an out of range number
   if bet_amount > session['balance']
-    session['message'] = "Bet cannot be greater than what you have ($#{session['balance']})."
-    session['message_class'] = "error"
+    session['error'] = "Bet cannot be greater than what you have ($#{session['balance']})."
     redirect '/bet'
   end
 
   #Save the input and advance gameplay
   session['bet_amount'] = bet_amount
   session['status'] = 'dealing_to_player'
+  session['error'] = nil
   clear_message
   redirect '/game'
 
@@ -469,24 +477,23 @@ end
 
 #Game actions
 
-
-
-# #Player stay action
-post '/game/player/stay' do
-
-  session['player_stayed'] = true
-  session['status']  = 'dealing_to_dealer'
-  redirect '/game'
-  append_message("#{session['name']} stayed at #{hand_total('player_hand')}. ")
-
-  end
-
-# #Player hit action
+#Dealer hit action
 post '/game/player/hit' do
   deal_card('player_cards')
   decide_status
   redirect '/game'
 end
+
+#Player stay action
+post '/game/player/stay' do
+
+  session['player_stayed'] = true
+  session['status']  = 'dealing_to_dealer'
+  append_message("#{session['name']} stays at #{hand_total('player_cards')}. ")
+
+  redirect '/game'
+
+  end
 
 #Dealer hit action
 post '/game/dealer/hit' do
@@ -498,27 +505,27 @@ end
 #Direct player to appropriate goodbye screen
 get '/goodbye' do
 
-  read_session
+  @balance = session['balance']
 
-  case session['balance']
-
-    when session['balance'] > 0
-       erb :winner_bye
-    else
-       erb :loser_bye   
- end
+  if @balance > 0
+    erb :winner_bye
+  else
+    erb :loser_bye   
+  end
 
 end
 
 #Display the main game screen
  get '/game' do
 
-   read_session
-   decide_status
+STATUS_MESSAGES = {'player_won' => "#{session['name']} won. ", 'dealer_won' => 'Dealer won. ',
+                  'push' => "Push. "}
 
-   decide_status #This is a temporary fix for a bug
-                 #where the status doesn't get updated
-                 #from 'dealing_to_dealer'
+
+   decide_status
+   read_session
+
+
 
    #Sanity checks
 
@@ -535,50 +542,25 @@ end
      raise "Illegal bet"
   end
 
-#   #Convert cards to image files
-   @dealer_images=show_hand('dealer_cards')
-   @player_images=show_hand('player_cards')
+  if session['balance'] == 0
+   redirect '/goodbye'
 
-#   @show_new_hand_buttons = false
-#   @show_hit_stay_buttons = false
-
-case @status
+  elsif session['balance'] >0
   
-    when 'dealer_won'  
-    
-    @alert_class = "alert-error"
-    @show_new_hand_buttons = true
+    #Convert cards to image files
+    @dealer_images=show_hand('dealer_cards')
+    @player_images=show_hand('player_cards')
+    erb :game
 
-    when 'player_won'  
-    @alert_class = "alert-info" #light blue 
-    @show_new_hand_buttons = true
-
-    when :push  
-      possible_actions = [:new_hand, :new_game, :quit]
-      action = request_user_action(game, possible_actions)
-
-    when :deal_to_player 
-
-      possible_actions = [:hit,:stay,:new_game,:quit]
-      action = request_user_action(game, possible_actions)
-
-    #The next action should be to play out the dealer's hand
-    when :deal_to_dealer
-      action = [:play_dealer]
-    
-    #The next action should be to tally up the scores
-    when :tally      
-      action = [:tally]    
-
-    else
-      # p game[:status]
-      # raise "Main game loop: Illegal status #{game[:status]}"
+  else
+    raise "Negative balance"
   end
-# # ['player_won','player_lost'].include?(session['status'])
-# # @show_hit_stay_buttons = ['plsyer)']
 
- erb :game
+ end
 
+ get '/start_over' do
+  session.clear
+  redirect 'get_name'
  end
 
 #Debugging routes
@@ -592,8 +574,6 @@ get '/debug/set_message' do
   session['message'] = params['message']
   puts session['message']
 end
-
-
 
 get '/clear_message' do
   clear_message
@@ -612,136 +592,19 @@ get '/debug/clear' do
   session.clear
   end
 
-get '/debug/dump' do
-  'session[status] = ' + session['status'] + "\n" + 
-  "session[message] = "  + session['message'].to_s + "\n" 
+ get '/debug/dump' do
+   'session[status] = ' + session['status'] + "\n" + 
+   "session[message] = "  + session['message'].to_s +  " <br></br> " + 
+   "session[message] = "  + session['message'].to_s + " <br></br> " 
+
+ end
+
+ get '/debug/decide_status' do
+   decide_status
+ end
+
+
+ get '/debug/push' do
+  session[dealer_cards] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '8', 'suit' => 'diamonds'}, {'rank' => '', 'suit' => 'diamonds'} ]
+  session[dealer_cards] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '8', 'suit' => 'spades'}, {'rank' => '', 'suit' => 'spades'} ]
 end
-
-get '/debug/decide_status' do
-  decide_status
-end
-# if session[:status] == :player_won || session[:status] == :dealer_won
-#   @play_again_flag = true
-# end  
-# erb :game
-  # case status
-  #   when :dealer_won, :player_won
-  #     buttons
-  # erb :hit_view
-#end
-
-# post '/i_hit' do
-#   "You hit"
-# end
-=begin
-
- / => form to put in name, which redirects to form to take bet
- => redirects you to cards
- cards has hit and stay buttons, which have associate post actions
-           
-
-
- bet  => put in bet
-      => redirect to view cards
-
-      =
- view_cards
-  says
-
-
-=end
-#rescue Exception => e
-  
-#end
-
-# ef do_action(game, action)
-
-#   case action
-
-#     #User asked for a new game
-#     when :new_game
-
-#         game = create_game()
-#         game[:message] = "Created new game"
-#         game[:status] = :deal_to_player
-#         deal_hand(game)
-
-#     #User asked for a new hand    
-#     when :new_hand
-     
-#       deal_hand(game) 
-#       game[:status] = :deal_to_player
-
-#       #Check for player blackjack  
-#       if blackjack?(game, :player_hand)
-#         game[:status] = :deal_to_dealer
-#       end
-
-#     #User asked to hig  
-#     when :hit
-      
-#       deal_card(game, :player_hand)
-
-#       #Check for a player bust
-#       if bust?( game, :player_hand )
-#         game[:status] = :dealer_won
-#       end
-      
-#       #Check for player 21  
-#       if hand_total(game[ :player_hand]) == 21
-#         game[:status] = :deal_to_dealer
-#       end
-
-#     #User asked to stay
-#     when :stay
-#       game[:status] = :deal_to_dealer
-
-#     #Main script asked to play out the dealer's hand
-#     when :play_dealer
-
-#       play_dealer(game)
-#       game[:status] = :tally
-
-#      #Check for a dealer bust
-#       if bust?( game, :dealer_hand )
-#         game[:status] = :player_won
-#       end
-
-#     #Main script asked to count the cards and see who wom  
-#     when :tally
-     
-#       player_diff = 21 -  hand_total( game[:player_hand] ) 
-#       dealer_diff = 21 - hand_total( game[:dealer_hand] )
-
-#       #Both player and dealer have blackjacks
-#       if blackjack?(game, :player_hand ) and blackjack?(game, :dealer_hand)
-#         game[:status]=:push
-
-#       #Dealer has a blackjack
-#       elsif blackjack?(game, :dealer_hand)  
-#         game[:status] = :dealer_won
-        
-#       #Player has a blackjack  
-#       elsif blackjack?(game, :player_hand)  
-#         game[:status] = :dealer_won 
- 
-#       #Check for winner or push
-#       else 
-
-#         if (player_diff > dealer_diff)
-#           game[:status] = :dealer_won
-#         elsif (player_diff < dealer_diff)
-#           game[:status] = :player_won
-#         else
-#           game[:status] = :push
-#         end
-
-#       end
-
-#     else raise "Unknown action requested"
-    
-#   end
-
-#   return game
-
-# end
