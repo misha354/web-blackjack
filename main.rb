@@ -291,7 +291,7 @@ helpers do
         
         #Player blackjack
         elsif blackjack?('player_cards')
-          append_message  "session['name'] hit blackjack."
+          append_message  "#{session['name']} hit blackjack."
           record_player_win
 
         #Dealer blackjack
@@ -418,11 +418,12 @@ end
 
 #Request a bet amount
 get '/bet' do
+#Uses session['error'] and @error to display error messages
 
   @name = session['name']
   @message = session['message']
   @balance = session['balance']
-  @error = session['error']
+  @error = session['error'] 
 
   erb :bet
 
@@ -430,8 +431,6 @@ get '/bet' do
 
 # Read the user's bet
 post '/bet' do
-
-    puts " in bet @error= #{@error}"
 
   #Check for invalid characters in input
   if !(params['bet_amount']  =~/^0*[1-9]\d*$/)     
@@ -453,8 +452,7 @@ post '/bet' do
   #Save the input and advance gameplay
   session['bet_amount'] = bet_amount
   session['status'] = 'dealing_to_player'
-  session['error'] = nil
-  clear_message
+  session['error'] = nil #reset the error message buffer
   redirect '/game'
 
 end
@@ -500,43 +498,46 @@ get '/goodbye' do
 end
 
 #Display the main game screen
- get '/game' do
+get '/game' do
 
-STATUS_MESSAGES = {'player_won' => "#{session['name']} won. ", 'dealer_won' => 'Dealer won. ',
+  #Custom messages containing user's name
+  STATUS_MESSAGES = {'player_won' => "#{session['name']} won. ", 'dealer_won' => 'Dealer won. ',
                   'push' => "Push. "}
 
+   decide_status #decide what the state of the game is
+ 
+   read_session #read the contents of the session cookie
 
-   decide_status
-   read_session
+  #Sanity checks
 
+  #No cards dealt?
 
-
-   #Sanity checks
-
-   if session['dealer_cards'].empty?
-     raise "No cards dealt to dealer"
-   end
+  if session['dealer_cards'].empty?
+    raise "No cards dealt to dealer"
+  end
 
   if session['player_cards'].empty?
     raise "No cards dealt to player"
   end
 
+  #Bet amount is not a valid number
   if (!session['bet_amount'].is_a?(Fixnum)  ||
-       session['bet_amount'] <= 0)
-     raise "Illegal bet"
+    session['bet_amount'] <= 0)
+    raise "Illegal bet"
   end
 
-      #Convert cards to image files
-    @dealer_images=show_hand('dealer_cards')
-    @player_images=show_hand('player_cards')
-    erb :game
+  #Convert cards to image files
+  @dealer_images=show_hand('dealer_cards')
+  @player_images=show_hand('player_cards')
+
+  erb :game
 
  end
 
- get '/start_over' do
+get '/start_over' do
   session.clear
   redirect 'get_name'
- end
+end
 
 #Debugging routes
 
@@ -554,14 +555,6 @@ get '/clear_message' do
   clear_message
 end
 
-get '/dealer_blackjack' do
-  session['dealer_cards'] = []
-  session['dealer_cards'] << {'rank' => 'ace', 'suit' => 'spades'}
-  session['dealer_cards'] << {'rank' => 'queen', 'suit' => 'spades'}
-  decide_status
-  redirect '/game'
-
-end
 
 get '/debug/clear' do
   session.clear
@@ -578,15 +571,7 @@ get '/debug/clear' do
    decide_status
  end
 
-
- get '/debug/push' do
-  session['dealer_cards'] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '7', 'suit' => 'diamonds'},
-   {'rank' => '10', 'suit' => 'diamonds'} ]
-  session['player_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}, 
-    {'rank' => '10', 'suit' => 'spades'} ]
-    session['status'] = 'dealing_to_dealer'
-    return ""
-end
+#Test game states combinations
 
  get '/debug/player21' do
   session['player_cards'] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '8', 'suit' => 'diamonds'},
@@ -594,4 +579,34 @@ end
   session['dealer_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}]
     session['status'] = 'dealing_to_player'
     return ""
+end
+
+ get '/debug/push' do
+  session['dealer_cards'] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '7', 'suit' => 'diamonds'},
+   {'rank' => '10', 'suit' => 'diamonds'} ]
+  session['player_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}, 
+    {'rank' => '10', 'suit' => 'spades'} ]
+    session['status'] = 'dealing_to_dealer'
+    redirect '/game'
+end
+
+
+get '/dealer_blackjack' do
+  session['dealer_cards'] = []
+  session['dealer_cards'] << {'rank' => 'ace', 'suit' => 'spades'}
+  session['dealer_cards'] << {'rank' => 'queen', 'suit' => 'spades'}
+  decide_status
+  redirect '/game'
+
+end
+
+get '/debug/player_blackjack' do
+  clear_message
+  session['player_cards'] =[ {'rank' => 'ace', 'suit' => 'spades'}, {'rank' => 'queen', 'suit' => 'spades'}]
+  session['dealer_cards'] = [ {'rank' => '8', 'suit' => 'spades'},{'rank' => '8', 'suit' => 'spades'}]
+  session['status'] = 'dealing_to_player'
+  session['bet_amount'] = 1
+
+  redirect '/game'
+
 end
