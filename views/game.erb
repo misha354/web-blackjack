@@ -1,6 +1,6 @@
 <%#% Display the message bar, if there is a message%>
 
-      <%if @message && ['player_won', 'dealer_won'].include?(@status)%>
+      <%if @message && ['player_won', 'dealer_won','push'].include?(@status)%>
 
         <div class= "alert alert-<%=@message_class%> "  >
                    <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
@@ -8,19 +8,19 @@
           <%=@message%>
 
         </div>
-    
-     <%end%>  
+   <p></p>
 
-<p></p>
-
-<%if ['player_won','dealer_won'].include?(@status)%>
+<%#if ['player_won','dealer_won'].include?(@status)%>
 
     <strong>Play Again?</strong>
     <a href="/new_hand" class='btn btn-primary'/> Yes</a>
     <a href="/goodbye" class='btn'>No </a> 
-    <br>
+    <br> 
+     <%end%>  
 
-<%end%> 
+
+
+<%#end%> 
 
 <h1>Blackjack game</h1>
 

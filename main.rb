@@ -324,7 +324,7 @@ helpers do
 
             #It's a tie. 
             else
-              session['message'] = "Push at #{hand_total('player_cards')}"
+              session['message'] = "Push at #{hand_total('player_cards')}. #{@name} now has $#{hand_total('player_cards')}."
               session['status'] = 'push'
             end
 #--------------------------------------------------------------------------------------------             
@@ -333,7 +333,7 @@ helpers do
 
         end #closes if dealer stay limit reached
       
-        when 'dealer_won', 'player_won' #do nothing 
+        when 'dealer_won', 'player_won', 'push' #do nothing 
 
       else #closes the case 'session['status]
         raise "Unknown status in decide_status: #{session['status']}"
@@ -359,34 +359,6 @@ helpers do
     session['balance'] += session['bet_amount']
     append_message("#{session['name']} now has $#{session['balance']}. ")
   end
- 
-
-  # #Reads the contents of the session cookie and saves it to instance variables
-  # def read_session
-
-  #   @message = session['message']
-
-  #   if !VALID_MESSAGE_CLASSES.include?(session['message_class'])
-  #     raise "Unknown message class" 
-  #   end
-  #   @message_class = session['message_class']
-
-  #   if !VALID_STATUSES.include?(session['status'])
-  #     raise "Unknown status"
-  #   end
-  #   @status = session['status']
-
-  #   @name = session['name']
-  #   @balance = session['balance']
-  #   @bet_amount = session['bet_amount']
-  #   @player_stayed = session['player_stayed']
-  # end
-
-  # #Clears the message buffer
-  # def clear_message
-  #   session['message'] = nil
-  #   session['message_class'] = 'alert'
-  # end
 
 end
 
@@ -605,6 +577,10 @@ get '/debug/clear' do
 
 
  get '/debug/push' do
-  session[dealer_cards] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '8', 'suit' => 'diamonds'}, {'rank' => '', 'suit' => 'diamonds'} ]
-  session[dealer_cards] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '8', 'suit' => 'spades'}, {'rank' => '', 'suit' => 'spades'} ]
+  session['dealer_cards'] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '7', 'suit' => 'diamonds'},
+   {'rank' => '10', 'suit' => 'diamonds'} ]
+  session['player_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}, 
+    {'rank' => '10', 'suit' => 'spades'} ]
+    session['status'] = 'dealing_to_dealer'
+    return ""
 end
