@@ -5,7 +5,8 @@
         <div class= "alert alert-<%=@message_class%> "  >
                    <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
 
-          <%=@message%>
+          <%=@message%> 
+          <%=@name%> now has <strong> $<%=@balance%></strong>.
 
         </div>
    <p></p>

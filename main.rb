@@ -324,7 +324,7 @@ helpers do
 
             #It's a tie. 
             else
-              session['message'] = "Push at #{hand_total('player_cards')}. #{@name} now has $#{hand_total('player_cards')}."
+              session['message'] = "Push at #{hand_total('player_cards')}. "
               session['status'] = 'push'
             end
 #--------------------------------------------------------------------------------------------             
@@ -349,15 +349,12 @@ helpers do
     session['message_class'] = 'error'
     session['status'] = 'dealer_won'
     session['balance'] -= session['bet_amount']
-    session
-    append_message("#{session['name']} now has $#{session['balance']}. ")
   end
 
   def record_player_win
     session['message_class'] = 'success'
     session['status'] = 'player_won'
     session['balance'] += session['bet_amount']
-    append_message("#{session['name']} now has $#{session['balance']}. ")
   end
 
 end
@@ -396,6 +393,18 @@ end
 
 #Deal a new hand
 get '/new_hand' do
+ 
+if session['balance'] == 0
+   redirect '/goodbye'
+
+  elsif session['balance'] >0
+  
+
+
+  else
+    raise "Negative balance"
+  end
+
     clear_message
      deal_hand     
      clear_status
@@ -514,19 +523,10 @@ STATUS_MESSAGES = {'player_won' => "#{session['name']} won. ", 'dealer_won' => '
      raise "Illegal bet"
   end
 
-  if session['balance'] == 0
-   redirect '/goodbye'
-
-  elsif session['balance'] >0
-  
-    #Convert cards to image files
+      #Convert cards to image files
     @dealer_images=show_hand('dealer_cards')
     @player_images=show_hand('player_cards')
     erb :game
-
-  else
-    raise "Negative balance"
-  end
 
  end
 
