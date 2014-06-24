@@ -16,7 +16,6 @@
   <p id="dealer_total"></p>
 
   <h5>Dealer has <%=hand_total('dealer_cards')%> and will hit.</h5>
-  <%puts hand_total('dealer_cards')%>
   <form action='/game/dealer/hit' method='post'>
     <input type="submit" class="btn btn-primary" value="Click to see dealer's next card <%="\u2192"%>" >
   </form>

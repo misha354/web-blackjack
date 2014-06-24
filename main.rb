@@ -255,8 +255,6 @@ helpers do
    #hand is a string with valid values 'dealer_cards' and 'player_cards'
 
     #A flag to see if the hand contains an ace
-    puts "hand =" + hand.to_s
-    p "hand_total via blackjack " + session[hand].to_s
     have_ace = ! ( session[hand].select{|card| card['rank'] == "ace"}.empty?  )
 
     total = 0
@@ -539,74 +537,3 @@ get '/start_over' do
   redirect 'get_name'
 end
 
-#Debugging routes
-
-get '/debug/set_status' do
-  session['status'] = params['status']
-  puts  session['status']
-end
-
-get '/debug/set_message' do 
-  session['message'] = params['message']
-  puts session['message']
-end
-
-get '/clear_message' do
-  clear_message
-end
-
-
-get '/debug/clear' do
-  session.clear
-  end
-
- get '/debug/dump' do
-   'session[status] = ' + session['status'] + "\n" + 
-   "session[message] = "  + session['message'].to_s +  " <br></br> " + 
-   "session[message] = "  + session['message'].to_s + " <br></br> " 
-
- end
-
- get '/debug/decide_status' do
-   decide_status
- end
-
-#Test game states combinations
-
- get '/debug/player21' do
-  session['player_cards'] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '8', 'suit' => 'diamonds'},
-   {'rank' => '10', 'suit' => 'diamonds'} ]
-  session['dealer_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}]
-    session['status'] = 'dealing_to_player'
-    return ""
-end
-
- get '/debug/push' do
-  session['dealer_cards'] = [{'rank' => '3', 'suit' => 'diamonds'}, {'rank' => '7', 'suit' => 'diamonds'},
-   {'rank' => '10', 'suit' => 'diamonds'} ]
-  session['player_cards'] = [{'rank' => '3', 'suit' => 'spades'}, {'rank' => '7', 'suit' => 'spades'}, 
-    {'rank' => '10', 'suit' => 'spades'} ]
-    session['status'] = 'dealing_to_dealer'
-    redirect '/game'
-end
-
-
-get '/dealer_blackjack' do
-  session['dealer_cards'] = []
-  session['dealer_cards'] << {'rank' => 'ace', 'suit' => 'spades'}
-  session['dealer_cards'] << {'rank' => 'queen', 'suit' => 'spades'}
-  decide_status
-  redirect '/game'
-
-end
-
-get '/debug/player_blackjack' do
-  clear_message
-  session['player_cards'] =[ {'rank' => 'ace', 'suit' => 'spades'}, {'rank' => 'queen', 'suit' => 'spades'}]
-  session['dealer_cards'] = [ {'rank' => '8', 'suit' => 'spades'},{'rank' => '8', 'suit' => 'spades'}]
-  session['status'] = 'dealing_to_player'
-  session['bet_amount'] = 1
-
-  redirect '/game'
-
-end
