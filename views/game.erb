@@ -5,7 +5,7 @@
 <%if ['player_won','dealer_won'].include?(@status)%>
 
     <strong>Play Again?</strong>
-    <a href="/bet" class='btn btn-primary'/> Yes</a>
+    <a href="/new_hand" class='btn btn-primary'/> Yes</a>
     <a href="/goodbye" class='btn'>No </a> 
     <br>
 
@@ -15,6 +15,30 @@
 
 <br>
 
+<!--Display the cards-->
 <%= erb :dealer_cards%>
 <p></p>
 <%=erb :player_cards%>
+
+<%#Ask player to hit or stay%>  
+<%if (@status == 'dealing_to_player') %>
+ 
+  <h4> 
+    <%=@name%> has <%=hand_total('player_cards') %>. What would
+          <%=@name%> like to do?
+   <small>
+    <%=@name%> has <strong> $ <%=@balance%> </strong> total. Bet this round: 
+     <strong> $<%=@bet_amount%> </strong>
+  </small>        
+</h4>
+
+  <form action="/game/player/hit"  method="post" style="display:inline;">
+    <input type="submit"class="btn btn-success btn-large" value="Hit">
+  </form>
+
+  &nbsp;&nbsp;  
+
+  <form action="/game/player/stay" method="post" style="display:inline;">
+    <input type="submit" class="btn btn-warning btn-large" value="Stay">
+  </form>
+<%end%>

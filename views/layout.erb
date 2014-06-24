@@ -17,31 +17,23 @@
       </div>
     </div>
 
-  <div class="container">
+    <div class="container">
 
-    <%if @message %>
-      <div class=" <%="alert alert-#{@message_class}"%> " >
-        <%puts 'got here layotu'%>
-        <%=@message%></div>
-    <% end %>
-      
- <!--  <%#Show the message if there is one %>
+      <%if @message%>
 
-  <%#if @message.length > 0%> 
+        <div class= "alert alert-<%= @message_class%> "  >
 
-  <%#Set the color%>
-  <div class="alert <%=@alert_class%>">
+          <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
+
+          <%=@message%>
+
+        </div>
+    
+     <%end%>   
+    
+     <%= yield %>
   
-  <%#Display the message %>
-  <%=@message%>
-
-  </div>
-
-<%#end%>
- -->
-
-      <%= yield %>
-  </div>
+    </div>
   </body>
 </html>
-<%clear_message%>
+
