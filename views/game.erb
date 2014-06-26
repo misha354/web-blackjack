@@ -43,13 +43,14 @@
   </small>        
 </h4>
 
-  <form action="/game/player/hit"  method="post" style="display:inline;">
-    <input type="submit"class="btn btn-success btn-large" value="Hit">
+  <form id="hit_button" action="/game/player/hit"  method='post'
+  >
+    <input type="submit" class="btn btn-success" value="Hit"
+    /> 
   </form>
 
-  &nbsp;&nbsp;  
-
-  <form action="/game/player/stay" method="post" style="display:inline;">
-    <input type="submit" class="btn btn-warning btn-large" value="Stay">
+  <form id="stay_button" action="/game/player/stay" method='post' >
+    <input type="submit" class="btn btn-warning" value="Stay"
+    />
   </form>
 <%end%>
