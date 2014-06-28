@@ -364,11 +364,14 @@ end
 #The root path
 get '/' do
 
-   #Read user
+   #No name set yet 
    if session['name'] == nil
-     redirect '/get_name'      
+     redirect '/get_name' 
+   #No bet set yet       
+   elsif session['bet_amount'] == nil
+     redirect  '/bet'
    else
-     redirect  '/game'
+    redirect '/game'
    end
 end
 
