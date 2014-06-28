@@ -472,7 +472,7 @@ post '/game/player/stay' do
   session['player_stayed'] = true
   session['status']  = 'dealing_to_dealer'
   append_message("#{session['name']} stays at #{hand_total('player_cards')}. ")
-
+  decide_status
   erb :game, layout: false
 
   end
