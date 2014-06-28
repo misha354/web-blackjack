@@ -1,10 +1,12 @@
 <%#the dealer's area%>
-<div class="well" >
+<div class="well" id="player_area" >
+
+
   <h4><%=@name%>'s Cards</h4>
      
 
     <%#Show the dealer's cards%>
-    <% @player_images.each do |image_path|%>     
+    <% show_hand('player_cards').each do |image_path|%>     
           <img src= "<%=image_path%>" style="margin: 0px 5px 5px 0px">
     <%end%>
 

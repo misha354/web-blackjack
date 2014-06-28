@@ -422,7 +422,7 @@ get '/bet' do
   @message = session['message']
   @balance = session['balance']
   @error = session['error'] 
-
+  session['bet_amount'] = nil
   erb :bet
 
  end
@@ -458,28 +458,31 @@ end
 #Game actions
 
 #Dealer hit action
+#Client issues this request using Ajax
 post '/game/player/hit' do
   deal_card('player_cards')
   decide_status
-  redirect '/game'
+  erb :game, layout: false
 end
 
 #Player stay action
+#Client issues this request using Ajax
 post '/game/player/stay' do
 
   session['player_stayed'] = true
   session['status']  = 'dealing_to_dealer'
   append_message("#{session['name']} stays at #{hand_total('player_cards')}. ")
 
-  redirect '/game'
+  erb :game, layout: false
 
   end
 
 #Dealer hit action
+#Client issues this request using Ajax
 post '/game/dealer/hit' do
   deal_card('dealer_cards')
   decide_status
-  redirect '/game'
+  erb :game, layout: false
 end
 
 #Direct player to appropriate goodbye screen

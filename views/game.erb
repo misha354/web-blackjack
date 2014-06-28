@@ -1,56 +1,62 @@
-<%#% Display the message bar, if there is a message%>
+<%read_session%>
 
-      <%if @message && ['player_won', 'dealer_won','push'].include?(@status)%>
+ <%#Custom messages containing user's name%>
+<%  STATUS_MESSAGES = {'player_won' => "#{session['name']} won. ", 'dealer_won' => 'Dealer won. ',
+                  'push' => "Push. "}%>
 
-        <div class= "alert alert-<%=@message_class%> "  >
-                   <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
 
-          <%=@message%> 
-          <%=@name%> now has <strong> $<%=@balance%></strong>. 
-          <%=session['game_cards'].length%> cards remain in the deck.
+<div id="game_area">
 
-        </div>
-   <p></p>
+  <%#% Display the message bar, if there is a message%>
+  <%if @message && ['player_won', 'dealer_won','push'].include?(@status)%>
+
+    <div class= "alert alert-<%=@message_class%> "  >
+      <strong> <%=STATUS_MESSAGES[@status] if STATUS_MESSAGES[@status] %> </strong>
+
+      <%=@message%> 
+      <%=@name%> now has <strong> $<%=@balance%></strong>. 
+      <%=session['game_cards'].length%> cards remain in the deck.
+
+    </div>
+    <p></p>
 
 
     <strong>Play Again?</strong>
-    <a href="/new_hand" class='btn btn-primary'/> Yes</a>
+    <a href="/new_hand" class='btn btn-primary'> Yes</a>
     <a href="/goodbye" class='btn'>No </a> 
     <br> 
-     <%end%>  
+  <%end%>  
 
+  <h1>Blackjack game</h1> 
 
+  <br>  
 
+  <!--Display the cards-->
+  <%= erb :dealer_cards%>
+  <p></p>
+  <%=erb :player_cards%>  
 
-<h1>Blackjack game</h1>
+  <%#Ask player to hit or stay%>  
+  <%if (@status == 'dealing_to_player') %>
+   
+    <h4> 
+     <%=@name%> has <%=hand_total('player_cards') %>. What would
+              <%=@name%> like to do?
+      <small>
+        <%=@name%> has <strong> $ <%=@balance%> </strong> total. Bet this round: 
+        <strong> $<%=@bet_amount%> </strong>
+      </small>        
+    </h4>   
 
-<br>
+    <form id="hit_form" action="/game/player/hit"  method='post'>
+      <input type="submit" class="btn btn-success" value="Hit"
+      /> 
+    </form> 
+    
+    <form id="stay_form" action="/game/player/stay" method='post' >
+      <input type="submit" class="btn btn-warning" value="Stay"
+      />
+    </form>
+  <%end%>
 
-<!--Display the cards-->
-<%= erb :dealer_cards%>
-<p></p>
-<%=erb :player_cards%>
-
-<%#Ask player to hit or stay%>  
-<%if (@status == 'dealing_to_player') %>
- 
-  <h4> 
-    <%=@name%> has <%=hand_total('player_cards') %>. What would
-          <%=@name%> like to do?
-   <small>
-    <%=@name%> has <strong> $ <%=@balance%> </strong> total. Bet this round: 
-     <strong> $<%=@bet_amount%> </strong>
-  </small>        
-</h4>
-
-  <form id="hit_button" action="/game/player/hit"  method='post'
-  >
-    <input type="submit" class="btn btn-success" value="Hit"
-    /> 
-  </form>
-
-  <form id="stay_button" action="/game/player/stay" method='post' >
-    <input type="submit" class="btn btn-warning" value="Stay"
-    />
-  </form>
-<%end%>
+</div>

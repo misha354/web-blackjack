@@ -1,10 +1,10 @@
 <%#the dealer's area%>
-<div class="well" >
+<div class="well" id="dealer_area">
   <h4>Dealer's Cards:</h4>
      
 
     <%#Show the dealer's cards%>
-    <% @dealer_images.each do |image_path|%>     
+    <% show_hand('dealer_cards').each do |image_path|%>     
           <img src= "<%=image_path%>" style="margin: 0px 5px 5px 0px">
     <%end%>
 
@@ -16,8 +16,8 @@
   <p id="dealer_total"></p>
 
   <h5>Dealer has <%=hand_total('dealer_cards')%> and will hit.</h5>
-  <form action='/game/dealer/hit' method='post'>
-    <input type="submit" class="btn btn-primary" value="Click to see dealer's next card <%="\u2192"%>" >
+  <form action='/game/dealer/hit' method='post' id="dealer_hit_form"/ >
+    <input type="submit" class="btn btn-primary"  value="Click to see dealer's next card <%="\u2192"%>" >
   </form>
 <%end%>
 <p></p>
