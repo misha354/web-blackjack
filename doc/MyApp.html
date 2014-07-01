@@ -1,0 +1,1100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: MyApp
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!MyApp.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">MyApp</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: MyApp
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Sinatra::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Sinatra::Base</li>
+          
+            <li class="next">MyApp</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">main.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Author:</p>
+<ul class="author">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>Mike Zhukovskiy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="MyApp/CountCards.html" title="MyApp::CountCards (module)">CountCards</a></span>, <span class='object_link'><a href="MyApp/CreateGame.html" title="MyApp::CreateGame (module)">CreateGame</a></span>, <span class='object_link'><a href="MyApp/MoveCards.html" title="MyApp::MoveCards (module)">MoveCards</a></span>, <span class='object_link'><a href="MyApp/ShowHand.html" title="MyApp::ShowHand (module)">ShowHand</a></span>
+    
+  
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="NDECKS-constant" class="">NDECKS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>number of decks in the game</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1</span></pre></dd>
+      
+        <dt id="START_AMT-constant" class="">START_AMT =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The amount of money that the player starts with</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>500</span></pre></dd>
+      
+        <dt id="WIN_VALUE-constant" class="">WIN_VALUE =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The object is to get a hand worth this many points</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>21</span></pre></dd>
+      
+        <dt id="STAY_VALUE-constant" class="">STAY_VALUE =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Dealer stays at this value</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>17</span></pre></dd>
+      
+        <dt id="SUITS-constant" class="">SUITS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hearts</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>spades</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>diamonds</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>clubs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="RANKS-constant" class="">RANKS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>3</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>4</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>5</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>6</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>7</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>8</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> 
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>9</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>10</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>jack</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>queen</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>king</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ace</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="IMAGE_DIR-constant" class="">IMAGE_DIR =
+          <div class="docstring">
+  <div class="discussion">
+    <p>directory containing card images</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/cards</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="VALID_STATUSES-constant" class="">VALID_STATUSES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealer_won</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>player_won</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>push</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+<span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealing_to_player</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealing_to_dealer</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="POINTS-constant" class="">POINTS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>translation from face values to hard point values</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='int'>2</span><span class='comma'>,</span> <span class='int'>3</span><span class='comma'>,</span> <span class='int'>4</span><span class='comma'>,</span> <span class='int'>5</span><span class='comma'>,</span> <span class='int'>6</span><span class='comma'>,</span> <span class='int'>7</span><span class='comma'>,</span> <span class='int'>8</span><span class='comma'>,</span> <span class='int'>9</span><span class='comma'>,</span> <span class='int'>10</span><span class='comma'>,</span> <span class='int'>10</span><span class='comma'>,</span> <span class='int'>10</span><span class='comma'>,</span> <span class='int'>10</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="RANK_TO_POINTS-constant" class="">RANK_TO_POINTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>Hash</span><span class='lbracket'>[</span> <span class='const'>RANKS</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='const'>POINTS</span><span class='rparen'>)</span> <span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_bet-instance_method" title="#get (instance method)">- (Object) <strong>get</strong>('/bet') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sinatra route that requests a bet amount.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_game-instance_method" title="#get (instance method)">- (Object) <strong>get</strong>('/game') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Display the main game screen.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_goodbye-instance_method" title="#get (instance method)">- (Object) <strong>get</strong>('/goodbye') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Direct player to appropriate goodbye screen.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_new_game-instance_method" title="#get (instance method)">- (Object) <strong>get</strong>('/new_game') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes a new game.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_new_hand-instance_method" title="#get (instance method)">- (Object) <strong>get</strong>('/new_hand') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Deals a new hand.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#getslash-instance_method" title="#get (instance method)">- (Object) <strong>get</strong>('/') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The root route.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_bet-instance_method" title="#post (instance method)">- (Object) <strong>post</strong>('/bet') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Read the user&#39;s bet and redirect to <span class='object_link'><a href="#get_game-instance_method" title="MyApp#get_game (method)">get &#39;/game&#39;</a></span>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_game_dealer_hit-instance_method" title="#post (instance method)">- (Object) <strong>post</strong>('/game/dealer/hit') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Dealer hit action.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_game_player_stay-instance_method" title="#post (instance method)">- (Object) <strong>post</strong>('/game/player/stay') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Player stay action.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_bet-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get</strong>('/bet') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Sinatra route that requests a bet amount.
+Request is submitted using <span class='object_link'><a href="#post_bet-instance_method" title="MyApp#post_bet (method)">post &#39;/bet&#39;</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 262</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/bet</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='comment'>#Uses session['error'] and @error to display error messages 
+</span>
+ <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+ <span class='ivar'>@message</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>message</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+ <span class='ivar'>@balance</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>balance</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+ <span class='ivar'>@error</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>error</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> 
+ <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bet_amount</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
+ <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:bet</span>  
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_game-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get</strong>('/game') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Display the main game screen</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 413</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/game</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>  
+
+ <span class='comment'>#Custom messages containing user's name
+</span> <span class='const'>STATUS_MESSAGES</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>player_won</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> won. </span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealer_won</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Dealer won. </span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+                 <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>push</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Push. </span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> 
+
+  <span class='id identifier rubyid_decide_status'>decide_status</span> <span class='comment'>#decide what the state of the game is
+</span>
+  <span class='id identifier rubyid_read_session'>read_session</span> <span class='comment'>#read the contents of the session cookie  
+</span>
+ <span class='comment'>#Sanity checks  
+</span>
+ <span class='comment'>#No cards dealt?  
+</span>
+ <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealer_cards</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No cards dealt to dealer</span><span class='tstring_end'>&quot;</span></span>
+ <span class='kw'>end</span> 
+
+ <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>player_cards</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No cards dealt to player</span><span class='tstring_end'>&quot;</span></span>
+ <span class='kw'>end</span> 
+
+ <span class='comment'>#Bet amount is not a valid number
+</span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bet_amount</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Fixnum</span><span class='rparen'>)</span>  <span class='op'>||</span>
+   <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bet_amount</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='int'>0</span><span class='rparen'>)</span>
+   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Illegal bet</span><span class='tstring_end'>&quot;</span></span>
+ <span class='kw'>end</span> 
+
+ <span class='comment'>#Convert cards to image files
+</span> <span class='ivar'>@dealer_images</span><span class='op'>=</span><span class='id identifier rubyid_show_hand'>show_hand</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealer_cards</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+ <span class='ivar'>@player_images</span><span class='op'>=</span><span class='id identifier rubyid_show_hand'>show_hand</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>player_cards</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>  
+
+ <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:game</span> 
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_goodbye-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get</strong>('/goodbye') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Direct player to appropriate goodbye screen</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 398</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/goodbye</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> 
+
+  <span class='ivar'>@balance</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>balance</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> 
+
+  <span class='kw'>if</span> <span class='ivar'>@balance</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:winner_bye</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:loser_bye</span>   
+  <span class='kw'>end</span> 
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_new_game-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get</strong>('/new_game') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Initializes a new game.
+Redirects to <span class='object_link'><a href="#get_new_hand-instance_method" title="MyApp#get_new_hand (method)">get &#39;/new_hand&#39;</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+297
+298
+299
+300
+301
+302</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 297</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/new_game</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_create_game'>create_game</span>
+  <span class='id identifier rubyid_clear_message'>clear_message</span>
+  <span class='id identifier rubyid_clear_status'>clear_status</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/new_hand</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_new_hand-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get</strong>('/new_hand') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Deals a new hand.
+Redirects to <span class='object_link'><a href="#get_goodbye-instance_method" title="MyApp#get_goodbye (method)">#get_goodbye</a></span> if player ran out of money, or to <span class='object_link'><a href="#get_bet-instance_method" title="MyApp#get_bet (method)">get &#39;/bet&#39;</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 308</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/new_hand</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+ 
+  <span class='comment'>#Player ran out of money  
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>balance</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='int'>0</span>
+   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/goodbye</span><span class='tstring_end'>'</span></span>  
+
+  <span class='comment'>#Error! 
+</span>  <span class='kw'>elsif</span> 
+    <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>balance</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Negative balance</span><span class='tstring_end'>&quot;</span></span>
+  
+  <span class='kw'>else</span> 
+    <span class='comment'>#Clear status and message and take bet 
+</span>    <span class='id identifier rubyid_clear_message'>clear_message</span>
+    <span class='id identifier rubyid_deal_hand'>deal_hand</span>     
+    <span class='id identifier rubyid_clear_status'>clear_status</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/bet</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="getslash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get</strong>('/') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The root route. If no name saved, redirects to <span class='object_link'><a href="Sinatra/NameHandler.html#get_get_name-instance_method" title="Sinatra::NameHandler#get_get_name (method)">get &#39;/name&#39;</a></span>.
+If no bet saved, redirects to <span class='object_link'><a href="#get_bet-instance_method" title="MyApp#get_bet (method)">get &#39;/bet&#39;</a></span>.
+Otherwise, redirects to <span class='object_link'><a href="#get_game-instance_method" title="MyApp#get_game (method)">get &#39;/game&#39;</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 280</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>  
+
+   <span class='comment'>#No name set yet 
+</span>   <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='kw'>nil</span>
+     <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/get_name</span><span class='tstring_end'>'</span></span> 
+   <span class='comment'>#No bet set yet       
+</span>   <span class='kw'>elsif</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bet_amount</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='kw'>nil</span>
+     <span class='id identifier rubyid_redirect'>redirect</span>  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/bet</span><span class='tstring_end'>'</span></span>
+   <span class='kw'>else</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/game</span><span class='tstring_end'>'</span></span>
+   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="post_bet-instance_method">
+  
+    - (<tt>Object</tt>) <strong>post</strong>('/bet') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Read the user&#39;s bet
+and redirect to <span class='object_link'><a href="#get_game-instance_method" title="MyApp#get_game (method)">get &#39;/game&#39;</a></span></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 332</span>
+
+<span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/bet</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>  
+
+  <span class='comment'>#Check for invalid characters in input
+</span>  <span class='kw'>if</span> <span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bet_amount</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>  <span class='op'>=~</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^0*[1-9]\d*$</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>      
+
+    <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>error</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Must enter a bet</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/bet</span><span class='tstring_end'>'</span></span> 
+
+  <span class='kw'>end</span> 
+
+  <span class='comment'>#Save the user's input to a temp variable
+</span>  <span class='id identifier rubyid_bet_amount'>bet_amount</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bet_amount</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>  
+
+  <span class='comment'>#Check for an out of range number
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_bet_amount'>bet_amount</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>balance</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>error</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Bet cannot be greater than what you have ($</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>balance</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>).</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/bet</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span> 
+
+  <span class='comment'>#Save the input and advance gameplay
+</span>  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bet_amount</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_bet_amount'>bet_amount</span>
+  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>status</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealing_to_player</span><span class='tstring_end'>'</span></span>
+  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>error</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='comment'>#reset the error message buffer
+</span>  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/game</span><span class='tstring_end'>'</span></span>  
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="post_game_dealer_hit-instance_method">
+  
+    - (<tt>Object</tt>) <strong>post</strong>('/game/dealer/hit') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Dealer hit action.
+Client issues this request using Ajax.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+389
+390
+391
+392
+393</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 389</span>
+
+<span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/game/dealer/hit</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_deal_card'>deal_card</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealer_cards</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_decide_status'>decide_status</span>
+  <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='label'>layout:</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="post_game_player_stay-instance_method">
+  
+    - (<tt>Object</tt>) <strong>post</strong>('/game/player/stay') 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Player stay action.
+ Client issues this request using Ajax.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377
+378
+379
+380
+381
+382
+383</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'main.rb', line 375</span>
+
+<span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/game/player/stay</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> 
+
+<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>player_stayed</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>status</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>  <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dealing_to_dealer</span><span class='tstring_end'>'</span></span>
+<span class='id identifier rubyid_append_message'>append_message</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> stays at </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_hand_total'>hand_total</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>player_cards</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>. </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_decide_status'>decide_status</span>
+<span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='label'>layout:</span> <span class='kw'>false</span>  
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Mon Jun 30 22:43:44 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

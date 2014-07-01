@@ -1,4 +1,14 @@
-1. Make sure the 'sinatra' gem is installed.
-2. From the command line, you can start the server by 'ruby main.rb'
-3. If you have the 'shotgun' gem installed, you can instead run 'shotgun main.rb'
-4. ctrl+c to stop the server
+#Blackjack#
+
+*Author:* Mike Zhukovskiy  
+
+##Overview
+A blackjack game written in Sinatra for Tealeaf Academy's first course.  
+Uses jquery and the Twitter Bootstrap CSS library.    
+
+Navigate to '/' to play.
+
+##Rules
+* Try to get as close to 21 as possible without going over (busting).
+* Choose "Hit" to be dealt another card or "Stay" to see the dealer's cards
+* Dealer will hit as long as its total is less than or equal to 17
