@@ -5,7 +5,7 @@ require 'rubygems'
 require_relative 'name_handler'
 require_relative 'session_helpers'
 require_relative 'decide_status'
-require 'sinatra'
+require 'sinatra/base'
 
 #@author Mike Zhukovskiy
 class MyApp < Sinatra::Base 
