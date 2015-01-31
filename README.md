@@ -1,5 +1,5 @@
-@author Mike Zhukovskiy
+author Mike Zhukovskiy
 # blackjack 
 game written in Sinatra for Tealeaf Academy's first course.
 Uses the Twitter Bootstrap CSS library.
-Navigate to '/' start playing.
+Navigate to https://sheltered-badlands-7905.herokuapp.com start playing.
